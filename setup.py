@@ -18,6 +18,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        build_french_municipalities_thesaurus=thesaurus_builder:build_french_municipalities_thesaurus
+        build_french_thesaurus=thesaurus_builder:build_french_thesaurus
     ''',
 )

@@ -54,16 +54,16 @@ def get_geometry_from_file(input_file_path):
 #@click.argument('com-shp-path', nargs=1, type=click.Path(exists=True, dir_okay=False))
 @click.argument('thesaurus', nargs=1, type=click.Choice(['commune', 'region', 'departement', 'epci']))
 @click.argument('out-rdf-path', nargs=1, type=click.Path(exists=False, dir_okay=False))
-def build_french_municipalities_thesaurus(thesaurus, out_rdf_path, dept_filter=None, filter_shp_path=None, verbose=None, delete=False):
+def build_french_thesaurus(thesaurus, out_rdf_path, dept_filter=None, filter_shp_path=None, verbose=None, delete=False):
     """
     This command creates a skos thesaurus for the french municipalities based on the ADMIN EXPRESS dataset from IGN
     (french mapping national agency). The created thesaurus can be used in Geonetwork.
 
     Examples:\n
-    build_french_municipalities_thesaurus ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
-    build_french_municipalities_thesaurus --dept-filter "02,60,80" ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
-    build_french_municipalities_thesaurus --dept-filter "  02,    oise, SOMME" ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
-    build_french_municipalities_thesaurus --dept-filter "02,60,80" --filter-shp-path ../temp/my_shape.shp ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
+    build_french_thesaurus ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
+    build_french_thesaurus --dept-filter "02,60,80" ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
+    build_french_thesaurus --dept-filter "  02,    oise, SOMME" ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
+    build_french_thesaurus --dept-filter "02,60,80" --filter-shp-path ../temp/my_shape.shp ../ADE/COMMUNE.shp ../temp/CommunesFR.rdf\n
     """
 
     with open("static/config.yml", 'r') as ymlfile:

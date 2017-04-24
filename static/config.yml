@@ -1,5 +1,5 @@
 template_dir_name: static/templates
-ade_dir_name: /Users/matthieu/01-PROJETS/GEOPICARDIE/venv_thesaurus/french_thesaurus_builders/ADE/
+ade_dir_name: /usr/local/french_thesaurus_builders/ADE/
 commune:
     shp: COMMUNE.shp
     fields:

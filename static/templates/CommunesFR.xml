@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gml="http://www.opengis.net/gml#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <skos:ConceptScheme rdf:about="http://adminsource.gouv.fr/projects/geocatalogue/{{thesaurus}}">
+    <dc:title>Communes de France ({{source_year}})</dc:title>
+    <dc:description>Mots clés de type géographique pour Géosource et Geonetwork.</dc:description>
+    <dc:creator>
+      <foaf:Organization>
+        <foaf:name>Neogeo Technologies</foaf:name>
+      </foaf:Organization>
+    </dc:creator>
+    <dc:rights>Licence Ouverte / Open Licence (https://www.etalab.gouv.fr/licence-ouverte-open-licence) - Based on ADMIN EXPRESS dataset from IGN (french mapping national agency):
+    http://professionnels.ign.fr/adminexpress.</dc:rights>
+    <dcterms:issued>{{date}}</dcterms:issued>
+    <dcterms:modified>{{date}}</dcterms:modified>
+  </skos:ConceptScheme>
+{% for terr in terr_list %}
+  <skos:Concept rdf:about="http://geonetwork-opensource.org/administrativeAreaFr#COM_{{terr.code}}">
+    <skos:prefLabel xml:lang="fr">{{terr.name}} ({{terr.code}})</skos:prefLabel>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>{{terr.lon_min}} {{terr.lat_min}}</gml:lowerCorner>
+        <gml:upperCorner>{{terr.lon_max}} {{terr.lat_max}}</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
+{% endfor %}
+</rdf:RDF>

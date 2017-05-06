@@ -1,4 +1,4 @@
-template_dir_name: static/templates
+template_dir_name: templates
 ade_dir_name: /usr/local/french_thesaurus_builders/ADE/
 commune:
     shp: COMMUNE.shp
@@ -8,6 +8,8 @@ commune:
       nomdept: NOM_DEP
       codedept: INSEE_DEP
     template: CommunesFR.xml
+    title: Communes de France (2017)
+    out: CommunesFR.rdf
 departement:
     shp: DEPARTEMENT.shp
     fields:
@@ -15,15 +17,21 @@ departement:
       code: INSEE_DEP
       codereg: INSEE_REG
     template: DepartementFR.xml
+    title: Départements de France (2017)
+    out: DepartementFR.rdf
 region:
     shp: REGION.shp
     fields:
       nom: NOM_REG
       code: INSEE_REG
     template: RegionFR.xml
+    title: Régions de France (2017)
+    out: RegionFR.rdf
 epci:
     shp: EPCI.shp
     fields:
       nom: NOM_EPCI
       code: CODE_EPCI
     template: EpciFR.xml
+    title: EPCI de France (2017)
+    out: EpciFR.rdf

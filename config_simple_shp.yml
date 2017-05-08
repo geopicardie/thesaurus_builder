@@ -1,0 +1,29 @@
+template_dir_name: templates
+thesauri:
+  epci:
+    shp: ./temp/in/EPCI_2017.shp
+    fields:
+      name: nom_min
+      code: code
+    template: other.xml
+    uri_template: http://www.geopicardie.fr/thesaurus/epci#{}
+    title: EPCI de la région Hauts-de-France (2017)
+    out: epci_hdf_2017.rdf
+  pnr:
+    shp: ./temp/in/PNR_Geofla.shp
+    fields:
+      name: nom
+      code: code
+    template: other.xml
+    uri_template: http://www.geopicardie.fr/thesaurus/epci#{}
+    title: Parcs naturels régionaux de la région Hauts-de-France (2017)
+    out: pnr_hdf_2017.rdf
+  communes:
+    shp: ./temp/in/communes_NP_2017.shp
+    fields:
+      name: nom_min
+      code: code
+    template: other.xml
+    uri_template: http://www.geopicardie.fr/thesaurus/commune#{}
+    title: Communes de la région Hauts-de-France (2017)
+    out: communes_hdf_2017.rdf

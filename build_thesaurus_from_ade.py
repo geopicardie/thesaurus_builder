@@ -5,7 +5,6 @@ import datetime
 import os
 import os.path
 import codecs
-import xml.dom.minidom as minidom
 
 # Non standard imports (see requirements.txt)
 import click
@@ -19,71 +18,9 @@ import pyproj
 from functools import partial
 import yaml
 
-
-class Bunch:
-    """
-    See http://code.activestate.com/recipes/52308-the-simple-but-handy-collector-of-a-bunch-of-named/?in=user-97991
-    """
-    def __init__(self, **kwds):
-        self.__dict__.update(kwds)
-
-
-def u(s):
-    """
-    decodes utf8
-    """
-    if isinstance(s, unicode):
-        return s.encode("utf-8")
-    if isinstance(s, str):
-        return s.decode("utf-8")
-    # fix this, item may be unicode
-    elif isinstance(s, list):
-        return [i.decode("utf-8") for i in s]
-
-
-def get_geometry_from_file(input_file_path):
-    """
-    Get the union of all the geometries contained in one shapefile.
-
-    :param input_file_path:     the path of the shapefile from which the geometry is computed
-    :return:                    the geomtry resulting in the union of the geometries of the shapefile
-    """
-    with fiona.open(input_file_path) as input_layer:
-        geoms = [shape(feat['geometry']) for feat in input_layer]
-        geom = unary_union(geoms)
-        return geom
-
-
-def prettify_xml(xml_string, minify=False, indent="  ", newl=os.linesep):
-    """
-    Function prettifying or minifying an xml string
-
-    :param xml_string:  The XML string to prettify or minify
-    :param minify:      True for minification and False for prettification
-    :param indent:      String used for indentation
-    :param newl:        String used for new lines
-    :return:            An XML string
-    """
-
-    # Function used to remove XML blank nodes
-    def remove_blanks(node):
-        for x in node.childNodes:
-            if x.nodeType == minidom.Node.TEXT_NODE:
-                if x.nodeValue:
-                    x.nodeValue = x.nodeValue.strip()
-            elif x.nodeType == minidom.Node.ELEMENT_NODE:
-                remove_blanks(x)
-
-    xml = minidom.parseString(u(xml_string))
-    remove_blanks(xml)
-    xml.normalize()
-
-    if minify:
-        pretty_xml_as_string = xml.toxml()
-    else:
-        pretty_xml_as_string = xml.toprettyxml(indent=indent, newl=newl)
-
-    return pretty_xml_as_string
+from utils import Bunch
+from utils import get_geometry_from_file
+from utils import prettify_xml
 
 
 @click.command()
@@ -97,7 +34,7 @@ def prettify_xml(xml_string, minify=False, indent="  ", newl=os.linesep):
               help='List of departement numbers or names used to filter the municipalities.')
 @click.option('--filter-shp-path', type=click.Path(exists=True, dir_okay=False),
               help='Path of a shapefile used to spatially filter the entities.')
-@click.option('--cfg-path', type=click.Path(exists=True, dir_okay=False),
+@click.option('--cfg-path', type=click.Path(exists=True, dir_okay=False), default="config_ade.yml",
               help='Path of a config file.')
 @click.option('--thesaurus', multiple=True, type=click.Choice(['commune', 'region', 'departement', 'epci']),
               help='Selection of the type of thesaurus to produce')
@@ -116,33 +53,33 @@ def create_thesauri(
     (french mapping national agency). The created thesaurus can be used in Geonetwork.
 
     Examples:\n
-    python thesaurus_builder.py output\n
-    python thesaurus_builder.py --verbose --overwrite output\n
-    python thesaurus_builder.py --verbose --overwrite --dept-filter "60,02,somme" output\n
-    python thesaurus_builder.py --verbose --overwrite --dept-filter "60,02,somme" output\n
-    python thesaurus_builder.py --dept-filter "02,60,80" output\n
-    python thesaurus_builder.py --dept-filter "  02,    oise, SOMME" output\n
-    python thesaurus_builder.py --dept-filter "02,60,80" --filter-shp-path my_filter.shp output\n
-    python thesaurus_builder.py --cfg-path ./temp/config.yml --dept-filter "02,60,80" --overwrite temp\n
-    python thesaurus_builder.py --cfg-path ./temp/config.yml --dept-filter "02,60,80" --overwrite --thesaurus departement temp\n
+    python build_thesaurus_from_ade.py output\n
+    python build_thesaurus_from_ade.py --verbose --overwrite output\n
+    python build_thesaurus_from_ade.py --verbose --overwrite --dept-filter "60,02,somme" output\n
+    python build_thesaurus_from_ade.py --verbose --overwrite --dept-filter "60,02,somme" output\n
+    python build_thesaurus_from_ade.py --dept-filter "02,60,80" output\n
+    python build_thesaurus_from_ade.py --dept-filter "  02,    oise, SOMME" output\n
+    python build_thesaurus_from_ade.py --dept-filter "02,60,80" --filter-shp-path my_filter.shp output\n
+    python build_thesaurus_from_ade.py --cfg-path config_ade.yml --dept-filter "02,60,80" --overwrite temp\n
+    python build_thesaurus_from_ade.py --cfg-path ./temp/config.yml --dept-filter "02,60,80" --overwrite --thesaurus departement temp\n
     """
 
-    thesauri_builder = ThesauriBuilder(
-        verbose,
-        overwrite,
-        compact,
-        thesaurus,
-        output_dir,
-        dept_filter,
-        filter_shp_path,
-        cfg_path)
+    thesauri_builder = AdeThesauriBuilder(
+        verbose=verbose,
+        overwrite=overwrite,
+        compact=compact,
+        thesaurus=thesaurus,
+        output_dir=output_dir,
+        dept_filter=dept_filter,
+        filter_shp_path=filter_shp_path,
+        cfg_path=cfg_path)
 
     thesauri_builder.create_thesauri()
 
     click.echo(u"Done. Goodbye")
 
 
-class ThesauriBuilder(object):
+class AdeThesauriBuilder(object):
 
     def __init__(self,
                  verbose,
@@ -150,9 +87,9 @@ class ThesauriBuilder(object):
                  compact,
                  thesaurus,
                  output_dir,
+                 cfg_path,
                  dept_filter=None,
-                 filter_shp_path=None,
-                 cfg_path=None):
+                 filter_shp_path=None):
 
         self.verbose = verbose
         self.overwrite = overwrite
@@ -161,8 +98,6 @@ class ThesauriBuilder(object):
         self.output_dir = output_dir
         self.filter_shp_path = filter_shp_path
 
-        if not cfg_path:
-            cfg_path = os.path.join(os.path.dirname(os.path.join(__file__)), "config.yml")
         with open(cfg_path, 'r') as yaml_file:
             self.cfg = yaml.load(yaml_file)
 

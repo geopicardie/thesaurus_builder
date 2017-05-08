@@ -1,0 +1,37 @@
+template_dir_name: templates
+ade_dir_name: ./temp/in/ADMINEXPRESS/1_DONNEES_LIVRAISON_2016-11-15/ADE_1-0_SHP_LAMB93_FR
+commune:
+  shp: COMMUNE.shp
+  fields:
+    nom: NOM_COM
+    code: INSEE_COM
+    nomdept: NOM_DEP
+    codedept: INSEE_DEP
+  template: CommuneFR.xml
+  title: Communes de la région Hauts-de-France (2017)
+  out: out/CommunesFR.rdf
+departement:
+  shp: DEPARTEMENT.shp
+  fields:
+    nom: NOM_DEP
+    code: INSEE_DEP
+    codereg: INSEE_REG
+  template: DepartementFR.xml
+  title: Départements de la région Hauts-de-France (2017)
+  out: out/DepartementFR.rdf
+region:
+  shp: REGION.shp
+  fields:
+    nom: NOM_REG
+    code: INSEE_REG
+  template: RegionFR.xml
+  title: Région Hauts-de-France (2017)
+  out: out/RegionFR.rdf
+epci:
+  shp: EPCI.shp
+  fields:
+    nom: NOM_EPCI
+    code: CODE_EPCI
+  template: EpciFR.xml
+  title: EPCI de la région Hauts-de-France (2017)
+  out: out/EpciFR.rdf

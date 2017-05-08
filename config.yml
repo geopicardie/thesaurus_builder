@@ -7,7 +7,7 @@ commune:
       code: INSEE_COM
       nomdept: NOM_DEP
       codedept: INSEE_DEP
-    template: CommunesFR.xml
+    template: CommuneFR.xml
     title: Communes de France (2017)
     out: CommunesFR.rdf
 departement:

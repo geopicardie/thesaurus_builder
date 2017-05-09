@@ -6,7 +6,7 @@ thesauri:
       name: nom_min
       code: code
     template: other.xml
-    uri_template: http://www.geopicardie.fr/thesaurus/epci#{}
+    uri_scheme: http://www.geopicardie.fr/thesaurus/epci
     title: EPCI de la région Hauts-de-France (2017)
     out: epci_hdf_2017.rdf
   pnr:
@@ -15,7 +15,7 @@ thesauri:
       name: nom
       code: code
     template: other.xml
-    uri_template: http://www.geopicardie.fr/thesaurus/epci#{}
+    uri_scheme: http://www.geopicardie.fr/thesaurus/epci
     title: Parcs naturels régionaux de la région Hauts-de-France (2017)
     out: pnr_hdf_2017.rdf
   communes:
@@ -24,6 +24,6 @@ thesauri:
       name: nom_min
       code: code
     template: other.xml
-    uri_template: http://www.geopicardie.fr/thesaurus/commune#{}
+    uri_scheme: http://www.geopicardie.fr/thesaurus/commune
     title: Communes de la région Hauts-de-France (2017)
     out: communes_hdf_2017.rdf

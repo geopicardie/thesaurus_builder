@@ -44,7 +44,7 @@ def create_thesauri(
     Examples:\n
     python build_thesaurus_from_simple_shp.py output\n
     python build_thesaurus_from_simple_shp.py --verbose --overwrite output\n
-    python build_thesaurus_from_simple_shp.py --cfg-path ./temp/config.yml --overwrite temp/out\n
+    python build_thesaurus_from_simple_shp.py --cfg-path ./temp/config_simple_shp.yml --overwrite temp/out\n
     """
 
     thesauri_builder = ShpThesauriBuilder(
@@ -130,7 +130,8 @@ class ShpThesauriBuilder(object):
             return
 
         # URI template
-        uri_template = thesaurus_cfg.get('uri_template')
+        uri_scheme = thesaurus_cfg.get('uri_scheme')
+        uri_template = "{}#{}".format(uri_scheme, "{}")
 
         # Create the list of territories
         terr_list = []
@@ -183,6 +184,7 @@ class ShpThesauriBuilder(object):
         # data passed to the template
         data = {
             "title": thesaurus_cfg["title"],
+            "uri_scheme": uri_scheme,
             "date": datetime.date.today().isoformat(),
             "terr_list": terr_list,
             "thesaurus": thesaurus_name

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gml="http://www.opengis.net/gml#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <skos:ConceptScheme rdf:about="http://adminsource.gouv.fr/projects/geocatalogue/{{thesaurus}}">
+  <skos:ConceptScheme rdf:about="{{uri_scheme}}">
     <dc:title>{{title}}</dc:title>
     <dc:description>Mots clés de type géographique pour Géosource et Geonetwork.</dc:description>
     <dc:creator>

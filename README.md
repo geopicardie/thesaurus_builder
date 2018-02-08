@@ -29,7 +29,7 @@ Les options :
 * --overwrite/--np-overwrite : interdit ou autorise le remplacement des fichiers existants en sortie
 * --dept-filter : liste de noms ou numéros de départements pour limiter la zone géographique sur laquelle est créé
 le thésaurus
-* --filter-shp-path : chemin vers un shapefile pour limiter la zone géographique sur laquelle est créé
+* --filter-shp-path : chemin vers un shapefile pour limiter la zone géographique sur laquelle est créé le thésaurus
 
 Exemples :
 
